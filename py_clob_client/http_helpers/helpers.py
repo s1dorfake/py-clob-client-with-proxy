@@ -11,6 +11,12 @@ from py_clob_client.clob_types import (
 
 from ..exceptions import PolyApiException
 
+
+proxies = {
+    "http": "http://your_proxy:port",
+    "https": "https://your_proxy:port",
+}
+
 GET = "GET"
 POST = "POST"
 DELETE = "DELETE"
@@ -36,7 +42,7 @@ def request(endpoint: str, method: str, headers=None, data=None):
     try:
         headers = overloadHeaders(method, headers)
         resp = requests.request(
-            method=method, url=endpoint, headers=headers, json=data if data else None
+            method=method, url=endpoint, headers=headers, json=data if data else None, proxies=proxies
         )
         if resp.status_code != 200:
             raise PolyApiException(resp)
